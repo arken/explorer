@@ -3,7 +3,7 @@ import Base from "../components/Base";
 
 const NotFound = () => (
   <Base pageName={"404"}>
-    <h1>404 Not Found!</h1>
+    <h1>That page doesn't exist!</h1>
   </Base>
 );
 

@@ -2,7 +2,10 @@
 // include page-specific backgrounds or whole-page widths, padding or margin.
 @import "variables";
 
+.page-div {
+  @include row;
+}
+
 #main-page {
   padding-top: 20px;
-  @include row;
 }
