@@ -1,0 +1,10 @@
+@import "variables";
+
+@font-face {
+  font-family: "nitti light";
+  src: url("../fonts/nitti-medium-v500.woff") format("woff");
+}
+
+html {
+  font-family: "nitti light", "Helvetica", sans-serif;
+}
