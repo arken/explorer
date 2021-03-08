@@ -1,0 +1,28 @@
+$nav-height: 128px;
+$row-width-dt: 75%;
+$row-width-med: 90%;
+$row-width-mob: 97%;
+$off-white: #f7f9fb;
+
+@function mobileNavHeight() {
+  @return 75px;
+}
+
+@mixin row {
+  width: $row-width-dt;
+  @media screen and (max-width: 1200px) {
+    width: $row-width-med;
+  }
+  @media screen and (max-width: 600px) {
+    width: $row-width-mob;
+  }
+  margin: 0 auto;
+}
+
+@mixin nav-offset {
+  margin-top: $nav-height;
+
+  @media screen and (max-width: 600px) {
+    height: mobileNavHeight();
+  }
+}

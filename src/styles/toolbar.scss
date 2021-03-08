@@ -1,0 +1,96 @@
+@import "variables";
+
+.toolbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: $off-white;
+  width: 100%;
+  height: $nav-height;
+  z-index: 50;
+
+  #logo {
+    width: 192px;
+    margin-top: 18px;
+
+    @media screen and (max-width: 600px) {
+      float: right;
+      margin-top: 22px;
+      width: 96px;
+    }
+
+    &:hover {
+      //how?
+    }
+  }
+
+  @media screen and (max-width: 600px) {
+    height: mobileNavHeight();
+  }
+
+  .spacer {
+    flex: 1;
+  }
+
+  .toolbar-nav {
+    @media (min-width: 601px) {
+      @include row;
+    }
+    display: flex;
+    align-items: center;
+    height: 100%;
+    list-style: none;
+
+    .toolbar-nav-logo {
+      margin-left: 0.5rem;
+      @media screen and (max-width: 600px) {
+        position: fixed;
+        right: 10px;
+        top: -8px;
+      }
+      a {
+        font-size: 2.5rem;
+      }
+    }
+
+    .toggle-button {
+      background: transparent;
+      border: none;
+      font-size: 2rem;
+      margin-top: 13px;
+
+      @media (min-width: 601px) {
+        display: none;
+      }
+    }
+
+    .toolbar-nav-items {
+      @media screen and (max-width: 600px) {
+        display: none;
+      }
+      font-size: 1.3rem;
+      list-style: none;
+      color: white;
+
+      ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+
+        li {
+          padding: 0 10px;
+          :hover,
+          :active {
+          }
+
+          a,
+          span {
+            transition: 100ms;
+            cursor: pointer;
+          }
+        }
+      }
+    }
+  }
+}

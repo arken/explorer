@@ -1,0 +1,35 @@
+@import "variables";
+@import "pages";
+
+@font-face {
+  font-family: "nitti light";
+  src: url("fonts/nitti-medium-v500.woff") format("woff");
+}
+
+html {
+  font-family: "nitti light", "Helvetica", sans-serif;
+  color: black;
+}
+
+main {
+  @include nav-offset;
+}
+
+a {
+  text-decoration: none;
+  color: black;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.backdrop {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.2);
+  z-index: 50;
+  top: 0;
+  left: 0;
+}
