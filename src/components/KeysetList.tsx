@@ -15,7 +15,7 @@ const KeysetList = ({ keysets, repoName }: KeysetListProps) => {
       Found {keysets.length} Keyset file{keysets.length === 1 ? "" : "s"}. Click
       one to explore it!
       {keysets.map((key) => (
-        <div className={"keyset-list__tile"}>
+        <div className={"keyset-list__tile"} key={key.sha}>
           {getStyledPath(key.path)}
           <span>
             <a href={key.html_url} target={"_blank"} rel="noreferrer">
