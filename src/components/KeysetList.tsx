@@ -12,8 +12,8 @@ const KeysetList = ({ keysets, repoName }: KeysetListProps) => {
   }
   return (
     <div className={"keyset-list"}>
-      Found {keysets.length} Keyset file{keysets.length === 1 ? "" : "s"}. Click
-      one to explore it!
+      {repoName} currently contains {keysets.length} Keyset file
+      {keysets.length === 1 ? "" : "s"}. Click one to explore it!
       {keysets.map((key) => (
         <div className={"keyset-list__tile"} key={key.sha}>
           {getStyledPath(key.path)}
