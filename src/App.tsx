@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
-import Main from "./pages/Main";
+import Explorer from "./pages/Explorer";
 import NotFound from "./pages/404";
 
 function App() {
@@ -17,7 +17,7 @@ function App() {
             }}
           />
           <Route exact path={"/explorer"}>
-            <Main />
+            <Explorer />
           </Route>
           <Route>
             <NotFound />

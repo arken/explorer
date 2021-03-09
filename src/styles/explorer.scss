@@ -1,0 +1,35 @@
+@import "variables";
+
+.repo-form {
+  margin-top: 20px;
+}
+
+.keyset-list-container {
+  margin-top: 32px;
+
+  &.loading {
+    text-align: center;
+  }
+
+  .keyset-list {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .keyset-list__tile {
+    background-color: $off-white;
+    border: 1px solid gray;
+    padding: 12px;
+    border-radius: 5px;
+    margin-top: 10px;
+    transition: 500ms;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    cursor: pointer;
+
+    &:hover {
+      background-color: darken($off-white, 8);
+    }
+  }
+}
