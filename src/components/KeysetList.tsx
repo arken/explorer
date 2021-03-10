@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { KeysType } from "../pages/Explorer";
 
 type KeysetListProps = {
@@ -16,7 +17,9 @@ const KeysetList = ({ keysets, repoName }: KeysetListProps) => {
       {keysets.length === 1 ? "" : "s"}. Click one to explore it!
       {keysets.map((key) => (
         <div className={"keyset-list__tile"} key={key.sha}>
-          {getStyledPath(key.path)}
+          <Link to={`/explorer/${key.path}?sha=${key.sha}`}>
+            {getStyledPath(key.path)}
+          </Link>
           <span>
             <a href={key.html_url} target={"_blank"} rel="noreferrer">
               See it on GitHub
@@ -28,7 +31,7 @@ const KeysetList = ({ keysets, repoName }: KeysetListProps) => {
   );
 };
 
-const getStyledPath = (path: string) => {
+export const getStyledPath = (path: string) => {
   const index = path.lastIndexOf("/") + 1;
   if (index > 0)
     return (

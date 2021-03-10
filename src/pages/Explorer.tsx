@@ -1,32 +1,28 @@
 /*
  * This is what you will get at arken.io/explorer
  */
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { LoaderCircles } from "slate-react-system";
 import Base from "../components/Base";
-import { Octokit } from "@octokit/rest";
 import "../styles/explorer.scss";
 import KeysetList from "../components/KeysetList";
+import { config } from "../explorer_config";
+import { findKeysets } from "../external/github";
 
 export type KeysType = Array<any> | null;
 
 export const Explorer = () => {
   const [keys, setKeys] = useState<KeysType>([]);
   const [loading, setLoading] = useState(true);
-  useEffect(() => {
+  const fn = useCallback(async () => {
     setLoading(true);
-    new Octokit().search
-      .code({ q: `extension:ks+repo:arken/core-keyset` })
-      .then((res) => {
-        setKeys(res.data.items);
-      })
-      .catch(() => {
-        setKeys(null);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+    setKeys(await findKeysets());
+    setLoading(false);
   }, []);
+
+  useEffect(() => {
+    fn().then(); //weird hack used because useEffects can't be async
+  }, [fn]);
   return (
     <Base pageName={"main"}>
       <div>
@@ -48,9 +44,9 @@ export const Explorer = () => {
               <LoaderCircles />
             </>
           ) : keys === null ? (
-            <>An error occurred. Please wait for about a minute then refresh.</>
+            "An error occurred. Please wait for about a minute then refresh."
           ) : (
-            <KeysetList keysets={keys} repoName={"Core Keyset"} />
+            <KeysetList keysets={keys} repoName={config.repository.copyName} />
           )}
         </div>
       </div>
