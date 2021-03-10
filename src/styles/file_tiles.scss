@@ -1,0 +1,14 @@
+@import "variables";
+.file-tiles {
+  display: flex;
+  flex-wrap: wrap;
+
+  .file-tile {
+    padding: 10px;
+    &.file-tile--img {
+      img {
+        height: 350px;
+      }
+    }
+  }
+}

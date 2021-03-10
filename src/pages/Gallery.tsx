@@ -5,6 +5,7 @@ import { config } from "../explorer_config";
 import { getStyledPath } from "../components/KeysetList";
 import { getKeyset, getSha } from "../external/github";
 import { LoaderCircles } from "slate-react-system";
+import GalleryFiles from "../components/GalleryFiles";
 
 const Gallery = () => {
   const { pathname, search } = useLocation();
@@ -43,7 +44,7 @@ const Gallery = () => {
   return (
     <Base pageName={"gallery"}>
       <Link to={config.basePath}>Back to {config.repository.copyName}</Link>
-      <h1 style={{ paddingTop: "20px" }}>{getStyledPath(ksPath)}</h1>
+      <h1>{getStyledPath(ksPath)}</h1>
       {(fetchingSha || fetchingKeyset) && (
         <div style={{ textAlign: "center" }}>
           {fetchingSha && sha === null && "Fetching SHA..."}
@@ -55,7 +56,7 @@ const Gallery = () => {
           Something went wrong fetching the Keyset's SHA
         </span>
       )}
-      {keyset && <pre>{JSON.stringify(keyset, null, 2)}</pre>}
+      {keyset && !fetchingKeyset && <GalleryFiles keyset={keyset} />}
     </Base>
   );
 };
