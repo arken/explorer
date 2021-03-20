@@ -6,6 +6,7 @@ import { getStyledPath } from "../components/KeysetList";
 import { getKeyset, getSha } from "../external/github";
 import { LoaderCircles } from "slate-react-system";
 import GalleryFiles from "../components/GalleryFiles";
+import "../styles/gallery.scss";
 
 const Gallery = () => {
   const { pathname, search } = useLocation();
