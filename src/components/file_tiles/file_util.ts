@@ -9,9 +9,9 @@ export enum FileCategory {
 
 const images = new Set<string>([
   "jpg",
+  "jpeg",
   "gif",
   "avif",
-  "jpeg",
   "png",
   "svg",
   "webp",
@@ -49,6 +49,7 @@ const texts = new Set<string>([
   "ahk",
   "applescript",
   "as",
+  "asm",
   "au3",
   "bat",
   "bas",
@@ -74,8 +75,10 @@ const texts = new Set<string>([
   "itcl",
   "js",
   "ts",
+  "tsx",
   "jsfl",
-  ".kt-kotlin",
+  "ini",
+  "kt-kotlin",
   "lua",
   "m",
   "mrc",
@@ -99,6 +102,10 @@ const texts = new Set<string>([
   "rdp",
   "red",
   "rs",
+  "yaml",
+  "yml",
+  "config",
+  "toml",
   "sb2/sb3",
   "scpt",
   "scptd",
@@ -138,3 +145,5 @@ export const getFileCategory = (name: string): FileCategory => {
     return FileCategory.OTHER;
   }
 };
+
+export const getUrl = (hash: string) => `https://link.arken.io/ipfs/${hash}`;

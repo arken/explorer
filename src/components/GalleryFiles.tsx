@@ -3,6 +3,7 @@ import { FileCategory, getFileCategory } from "./file_tiles/file_util";
 import ImageTile from "./file_tiles/ImageTile";
 import UnknownTile from "./file_tiles/UnknownTile";
 import { ButtonPrimary } from "slate-react-system";
+import PDFTile from "./file_tiles/PDFTile";
 
 type GalleryFilesProps = {
   keyset: Array<Array<string>>;
@@ -20,19 +21,25 @@ const GalleryFiles = ({ keyset }: GalleryFilesProps) => {
           switch (getFileCategory(name)) {
             case FileCategory.IMAGE:
               return <ImageTile ipfsHash={hash} name={name} />;
+            case FileCategory.PDF:
+              return <PDFTile ipfsHash={hash} name={name} />;
             default:
               return <UnknownTile ipfsHash={hash} name={name} />;
           }
         })}
       </div>
       <div className={"button-row"}>
-        <ButtonPrimary
-          onClick={() => {
-            setNumShown((prev) => prev + PAGE_SIZE);
-          }}
-        >
-          Load more
-        </ButtonPrimary>
+        {numShown < keyset.length ? (
+          <ButtonPrimary
+            onClick={() => {
+              setNumShown((prev) => prev + PAGE_SIZE);
+            }}
+          >
+            Load more ({numShown}/{keyset.length})
+          </ButtonPrimary>
+        ) : (
+          `That's all there is in here`
+        )}
       </div>
     </>
   );

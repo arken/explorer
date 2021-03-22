@@ -3,19 +3,19 @@ import { Link } from "react-router-dom";
 import { KeysType } from "../pages/Explorer";
 
 type KeysetListProps = {
-  keysets: KeysType;
+  keyset: KeysType;
   repoName: string;
 };
 
-const KeysetList = ({ keysets, repoName }: KeysetListProps) => {
-  if (!keysets || keysets.length === 0) {
+const KeysetList = ({ keyset, repoName }: KeysetListProps) => {
+  if (!keyset || keyset.length === 0) {
     return <div>No keysets found in {repoName}</div>;
   }
   return (
     <div className={"keyset-list"}>
-      {repoName} currently contains {keysets.length} Keyset file
-      {keysets.length === 1 ? "" : "s"}. Click one to explore it!
-      {keysets.map((key) => (
+      {repoName} currently contains {keyset.length} Keyset file
+      {keyset.length === 1 ? "" : "s"}. Click one to explore it!
+      {keyset.map((key) => (
         <div className={"keyset-list__tile"} key={key.sha}>
           <Link to={`/explorer/${key.path}?sha=${key.sha}`}>
             {getStyledPath(key.path)}

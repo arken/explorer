@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { FileTileProps } from "./file_util";
+import { FileTileProps, getUrl } from "./file_util";
 import "../../styles/file_tiles.scss";
 
 const ImageTile = ({ ipfsHash, name }: FileTileProps) => {
-  const url = `https://link.arken.io/ipfs/${ipfsHash}`;
+  const url = getUrl(ipfsHash);
   const [loaded, setLoaded] = useState(false);
   return (
     <div className={"file-tile file-tile--img"}>

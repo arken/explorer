@@ -6,7 +6,7 @@ import { LoaderCircles } from "slate-react-system";
 import Base from "../components/Base";
 import "../styles/explorer.scss";
 import KeysetList from "../components/KeysetList";
-import { config } from "../explorer_config";
+import { config, getRepoUrl } from "../explorer_config";
 import { findKeysets } from "../external/github";
 
 export type KeysType = Array<any> | null;
@@ -28,13 +28,9 @@ export const Explorer = () => {
       <div>
         <h1>Arken Explorer</h1>
         <h3>
-          Explore the{" "}
-          <a
-            href={"https://github.com/arken/core-keyset"}
-            target={"_blank"}
-            rel="noreferrer"
-          >
-            Core Keyset
+          Explore{" "}
+          <a href={getRepoUrl()} target={"_blank"} rel="noreferrer">
+            {config.repository.copyName}
           </a>
         </h3>
         <div className={`keyset-list-container${loading ? " loading" : ""}`}>
@@ -46,7 +42,7 @@ export const Explorer = () => {
           ) : keys === null ? (
             "An error occurred. Please wait for about a minute then refresh."
           ) : (
-            <KeysetList keysets={keys} repoName={config.repository.copyName} />
+            <KeysetList keyset={keys} repoName={config.repository.copyName} />
           )}
         </div>
       </div>

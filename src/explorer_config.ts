@@ -19,3 +19,6 @@ export const config: Config = {
     copyName: "core keyset",
   },
 };
+
+export const getRepoUrl = () =>
+  `https://github.com/${config.repository.owner}/${config.repository.repo}`;
