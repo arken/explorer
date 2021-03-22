@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { FileTileProps, getUrl } from "./file_util";
 import { pdfjs, Document, Page } from "react-pdf";
+import NewTabLink from "../NewTabLink";
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
 
 const PDFTile = ({ ipfsHash, name }: FileTileProps) => {
@@ -15,17 +16,14 @@ const PDFTile = ({ ipfsHash, name }: FileTileProps) => {
           setLoaded(true);
         }}
       >
-        <Page pageIndex={0} height={300} />
+        <div className={"content-container"}>
+          <Page pageIndex={0} height={350} />
+        </div>
       </Document>
       {loaded && (
-        <a
-          className={"file-tile__filename"}
-          href={url}
-          target={"_blank"}
-          rel={"noreferrer"}
-        >
+        <NewTabLink className={"file-tile__filename"} href={url}>
           {name}
-        </a>
+        </NewTabLink>
       )}
     </div>
   );

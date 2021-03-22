@@ -4,6 +4,7 @@ import ImageTile from "./file_tiles/ImageTile";
 import UnknownTile from "./file_tiles/UnknownTile";
 import { ButtonPrimary } from "slate-react-system";
 import PDFTile from "./file_tiles/PDFTile";
+import TextTile from "./file_tiles/TextTile";
 
 type GalleryFilesProps = {
   keyset: Array<Array<string>>;
@@ -20,11 +21,13 @@ const GalleryFiles = ({ keyset }: GalleryFilesProps) => {
         {displayed.map(([hash, name]) => {
           switch (getFileCategory(name)) {
             case FileCategory.IMAGE:
-              return <ImageTile ipfsHash={hash} name={name} />;
+              return <ImageTile ipfsHash={hash} name={name} key={hash} />;
             case FileCategory.PDF:
-              return <PDFTile ipfsHash={hash} name={name} />;
+              return <PDFTile ipfsHash={hash} name={name} key={hash} />;
+            case FileCategory.TEXT:
+              return <TextTile ipfsHash={hash} name={name} key={hash} />;
             default:
-              return <UnknownTile ipfsHash={hash} name={name} />;
+              return <UnknownTile ipfsHash={hash} name={name} key={hash} />;
           }
         })}
       </div>

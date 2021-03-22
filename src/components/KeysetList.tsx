@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { KeysType } from "../pages/Explorer";
+import NewTabLink from "./NewTabLink";
 
 type KeysetListProps = {
   keyset: KeysType;
@@ -21,9 +22,9 @@ const KeysetList = ({ keyset, repoName }: KeysetListProps) => {
             {getStyledPath(key.path)}
           </Link>
           <span>
-            <a href={key.html_url} target={"_blank"} rel="noreferrer">
+            <NewTabLink href={key.html_url} target={"_blank"} rel="noreferrer">
               See it on GitHub
-            </a>
+            </NewTabLink>
           </span>
         </div>
       ))}

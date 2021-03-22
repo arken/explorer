@@ -1,4 +1,9 @@
 @import "variables";
+
+$tile-height: 350px;
+//tile width varies by type
+$img-height: 350px;
+
 .file-tiles {
   display: flex;
   flex-wrap: wrap;
@@ -8,26 +13,62 @@
     display: flex;
     flex-direction: column;
 
-    .file-tile__filename {
-      margin-top: 5px;
+    .content-container {
+      margin-bottom: 5px;
+      border: 2px solid transparent;
+
+      &:hover {
+        border: 2px solid #2d60f8;
+      }
     }
 
     &.file-tile--img {
-      img {
-        height: 350px;
+      .content-container {
+        height: $tile-height;
+
+        &.loading {
+          background-color: #bababa;
+          width: 200px;
+          height: 300px;
+
+          img {
+            display: none;
+            height: $img-height;
+          }
+        }
       }
     }
 
-    .img-container {
-      &.loading {
-        background-color: #bababa;
-        width: 200px;
-        height: 300px;
+    &.file-tile--txt {
+      .content-container {
+        width: 300px;
+        background-color: #353535;
 
-        img {
-          display: none;
+        pre {
+          font-size: 12px;
+          color: $off-white;
+          white-space: break-spaces;
+          margin: 0;
+          padding: 6px;
         }
       }
+    }
+
+    &.file-tile--unknown {
+      display: flex;
+      justify-content: center;
+      text-align: center;
+
+      .content-container {
+        $unknown-border: 1px solid gray;
+        border: $unknown-border;
+        padding: 10px;
+
+        &:hover {
+          border: $unknown-border;
+        }
+      }
+      width: 250px;
     }
   }
 }

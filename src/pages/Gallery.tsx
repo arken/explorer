@@ -21,7 +21,6 @@ const Gallery = () => {
   const getShaCB = useCallback(async () => {
     if (!fetchingSha) setFetchingSha(true);
     setSha(await getSha(ksPath));
-    await console.log("Getting sha", ksPath);
     setFetchingSha(false);
   }, [ksPath, fetchingSha]);
 
@@ -34,14 +33,12 @@ const Gallery = () => {
     if (!sha) return; //Should probably re-fetch the sha?
     if (!fetchingKeyset) setFetchingKeyset(true);
     setKeyset(await getKeyset(sha));
-    await console.log("Getting keyset");
     setFetchingKeyset(false);
   }, [fetchingKeyset, sha]);
 
   useEffect(() => {
     getKeysetCB().then();
-  }, []);
-  console.log(fetchingSha, fetchingKeyset);
+  }, []); //yes there's a warning here but if i get rid of deps it spams GH with requests
   return (
     <Base pageName={"gallery"}>
       <Link to={config.basePath}>Back to {config.repository.copyName}</Link>
