@@ -34,10 +34,8 @@ export const getSha = async (path: string): Promise<string | null> => {
     return null;
   }
   const data = await response.json();
-  console.log(data);
   for (const file of data) {
     if (file && file.name === name) {
-      console.log(file);
       return file.sha;
     }
   }
