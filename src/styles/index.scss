@@ -7,7 +7,7 @@
 }
 
 html {
-  font-family: "nitti light", "Helvetica", sans-serif;
+  font-family: $main-font;
   color: black;
 }
 
@@ -24,6 +24,12 @@ a {
   }
 }
 
+form {
+  input {
+    margin-bottom: 12px;
+  }
+}
+
 .backdrop {
   position: fixed;
   width: 100%;
@@ -32,4 +38,25 @@ a {
   z-index: 50;
   top: 0;
   left: 0;
+}
+
+.flex-align-both {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flex-vert-align {
+  display: flex;
+  justify-content: center;
+}
+
+.error {
+  color: red;
+  font-weight: bold;
+}
+
+img {
+  margin: 0;
+  padding: 0;
 }
