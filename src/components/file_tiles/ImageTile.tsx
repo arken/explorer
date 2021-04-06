@@ -9,7 +9,12 @@ const ImageTile = ({ ipfsHash, name }: FileTileProps) => {
   return (
     <div className={"file-tile file-tile--img"}>
       <div className={`content-container${loaded ? "" : " loading"}`}>
-        <img src={url} alt={name} onLoad={() => setLoaded(true)} />
+        <img
+          src={url}
+          alt={name}
+          onLoad={() => setLoaded(true)}
+          className={"content"}
+        />
       </div>
       {loaded && (
         <NewTabLink className={"file-tile__filename"} href={url}>

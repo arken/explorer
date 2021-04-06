@@ -9,22 +9,20 @@ const PDFTile = ({ ipfsHash, name }: FileTileProps) => {
   const url = getUrl(ipfsHash);
   return (
     <div className={"file-tile file-tile--pdf"}>
-      <Document
-        file={url}
-        loading={`Loading ${name}...`}
-        onLoadSuccess={() => {
-          setLoaded(true);
-        }}
-      >
-        <div className={"content-container"}>
-          <Page pageIndex={0} height={350} />
-        </div>
-      </Document>
-      {loaded && (
-        <NewTabLink className={"file-tile__filename"} href={url}>
-          {name}
-        </NewTabLink>
-      )}
+      <div className={`content-container${loaded ? "" : " loading"}`}>
+        <Document
+          file={url}
+          loading={""}
+          onLoadSuccess={() => {
+            setLoaded(true);
+          }}
+        >
+          <Page className={"content"} pageIndex={0} height={350} />
+        </Document>
+      </div>
+      <NewTabLink className={"file-tile__filename"} href={url}>
+        {name}
+      </NewTabLink>
     </div>
   );
 };

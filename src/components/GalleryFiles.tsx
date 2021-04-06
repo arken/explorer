@@ -14,22 +14,29 @@ const PAGE_SIZE = 16;
 
 const GalleryFiles = ({ keyset }: GalleryFilesProps) => {
   const [numShown, setNumShown] = useState(Math.min(keyset.length, PAGE_SIZE));
-  const displayed = keyset.slice(0, numShown); //not performant because it copies
+  const displayed: Array<React.ReactNode> = [];
+  for (let i = 0; i < numShown; i++) {
+    const [hash, name] = keyset[i];
+    switch (getFileCategory(name)) {
+      case FileCategory.IMAGE:
+        displayed.push(<ImageTile ipfsHash={hash} name={name} key={hash} />);
+        break;
+      case FileCategory.PDF:
+        displayed.push(<PDFTile ipfsHash={hash} name={name} key={hash} />);
+        break;
+      case FileCategory.TEXT:
+        displayed.push(<TextTile ipfsHash={hash} name={name} key={hash} />);
+        break;
+      default:
+        displayed.push(<UnknownTile ipfsHash={hash} name={name} key={hash} />);
+        break;
+    }
+  }
+
   return (
     <>
-      <div className={"file-tiles"}>
-        {displayed.map(([hash, name]) => {
-          switch (getFileCategory(name)) {
-            case FileCategory.IMAGE:
-              return <ImageTile ipfsHash={hash} name={name} key={hash} />;
-            case FileCategory.PDF:
-              return <PDFTile ipfsHash={hash} name={name} key={hash} />;
-            case FileCategory.TEXT:
-              return <TextTile ipfsHash={hash} name={name} key={hash} />;
-            default:
-              return <UnknownTile ipfsHash={hash} name={name} key={hash} />;
-          }
-        })}
+      <div className={`file-tiles ${displayed.length < 3 ? " few" : ""}`}>
+        {displayed}
       </div>
       <div className={"button-row"}>
         {numShown < keyset.length ? (
@@ -41,7 +48,7 @@ const GalleryFiles = ({ keyset }: GalleryFilesProps) => {
             Load more ({numShown}/{keyset.length})
           </ButtonPrimary>
         ) : (
-          `That's all there is in here`
+          "That's all there is in here."
         )}
       </div>
     </>

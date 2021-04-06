@@ -12,7 +12,7 @@ type Config = {
 };
 
 export const config: Config = {
-  basePath: "/explorer", //If you change this, also change the "homepage" key in package.json
+  basePath: "/explorer", //If you change this, also change the "homepage" key in ../package.json
   repository: {
     owner: "DaniloHP",
     repo: "explorer-testing",

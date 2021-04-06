@@ -1,12 +1,22 @@
 @import "variables";
 
+$hover-border-color: #2d60f8;
 $tile-height: 350px;
-//tile width varies by type
-$img-height: 350px;
+$loading-bg: #bababa;
 
 .file-tiles {
   display: flex;
   flex-wrap: wrap;
+  justify-content: space-between;
+
+  @media screen and (max-width: 1250px) {
+    justify-content: space-around;
+  }
+
+  &.few {
+    //this class is applied when the keyset has less than 3 items in it
+    justify-content: space-evenly;
+  }
 
   .file-tile {
     padding: 10px;
@@ -17,24 +27,55 @@ $img-height: 350px;
       margin-bottom: 5px;
       border: 2px solid transparent;
 
-      &:hover {
-        border: 2px solid #2d60f8;
+      &:not(.loading) {
+        &:hover {
+          border: 2px solid $hover-border-color;
+        }
       }
+      //.content can select the content inside the file tile, i.e. the image,
+      //pre tag, or div that holds PDF previews.
     }
 
     &.file-tile--img {
       .content-container {
-        height: $tile-height;
+        max-height: $tile-height;
+        padding: 0;
+        //for the image tile, the border is applied to the image itself to avoid
+        //ugly hacks that make the content-container div exactly the same size as
+        //the image inside
+        border: unset;
+        &:hover {
+          border: unset;
+        }
+
+        img {
+          max-height: $tile-height;
+          max-width: 300px;
+          border: 2px solid transparent;
+          &:hover {
+            border: 2px solid $hover-border-color;
+          }
+        }
 
         &.loading {
-          background-color: #bababa;
-          width: 200px;
-          height: 300px;
-
+          background-color: $loading-bg;
+          height: $tile-height;
+          width: $tile-height * (3 / 4);
+          // 3x4 aspect ratio is just a spitball really
           img {
             display: none;
-            height: $img-height;
           }
+        }
+      }
+    }
+
+    &.file-tile--pdf {
+      .content-container {
+        &.loading {
+          background-color: $loading-bg;
+          height: $tile-height;
+          width: floor($tile-height * (8.5 / 11));
+          //normalize to 8.5x11 aspect ratio based on $tile-height variable
         }
       }
     }
@@ -58,17 +99,24 @@ $img-height: 350px;
       display: flex;
       justify-content: center;
       text-align: center;
+      width: 250px;
 
       .content-container {
         $unknown-border: 1px solid gray;
         border: $unknown-border;
         padding: 10px;
+        a {
+          text-decoration: underline;
+        }
 
         &:hover {
           border: $unknown-border;
         }
       }
-      width: 250px;
+
+      a {
+        align-self: flex-start;
+      }
     }
   }
 }

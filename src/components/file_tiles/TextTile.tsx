@@ -30,7 +30,7 @@ const TextTile = ({ name, ipfsHash }: FileTileProps) => {
       {content && (
         <>
           <div className={"content-container"}>
-            <pre>{preview}</pre>
+            <pre className={"content"}>{preview}</pre>
           </div>
           <NewTabLink href={url}>{name}</NewTabLink>
         </>
