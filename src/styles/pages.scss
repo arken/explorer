@@ -1,0 +1,7 @@
+// For page-wide styles, to be applied to the ____-page id selectors. Examples
+// include page-specific backgrounds or whole-page widths, padding or margin.
+@import "variables";
+
+.page-div {
+  @include row;
+}

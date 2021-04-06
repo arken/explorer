@@ -1,0 +1,62 @@
+@import "variables";
+@import "pages";
+
+@font-face {
+  font-family: "nitti light";
+  src: url("fonts/nitti-medium-v500.woff") format("woff");
+}
+
+html {
+  font-family: $main-font;
+  color: black;
+}
+
+main {
+  @include nav-offset;
+}
+
+a {
+  text-decoration: none;
+  color: black;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+form {
+  input {
+    margin-bottom: 12px;
+  }
+}
+
+.backdrop {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.2);
+  z-index: 50;
+  top: 0;
+  left: 0;
+}
+
+.flex-align-both {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flex-vert-align {
+  display: flex;
+  justify-content: center;
+}
+
+.error {
+  color: red;
+  font-weight: bold;
+}
+
+img {
+  margin: 0;
+  padding: 0;
+}
