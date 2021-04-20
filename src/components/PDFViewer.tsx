@@ -9,11 +9,12 @@ type PDFViewerProps = {
   open: boolean;
   onClose: () => void;
   url: string;
+  data: Uint8Array | null;
 };
 
 const modalRoot = document.getElementById("portal") as HTMLElement;
 
-const PDFViewer = ({ open, onClose, url }: PDFViewerProps) => {
+const PDFViewer = ({ open, onClose, data }: PDFViewerProps) => {
   const [currPage, setCurrPage] = useState(0);
   const [loaded, setLoaded] = useState(false);
   const [numPages, setNumPages] = useState<number>(0);
@@ -49,17 +50,23 @@ const PDFViewer = ({ open, onClose, url }: PDFViewerProps) => {
               />
             )}
             <div className={"doc-column"}>
-              <Document
-                file={url}
-                externalLinkTarget={"_blank"}
-                loading={""}
-                onLoadSuccess={({ numPages }) => {
-                  setNumPages(numPages);
-                  setLoaded(true);
-                }}
-              >
-                <Page className={"content"} pageIndex={currPage} height={700} />
-              </Document>
+              {data && (
+                <Document
+                  file={{ data: data }}
+                  externalLinkTarget={"_blank"}
+                  loading={""}
+                  onLoadSuccess={({ numPages }) => {
+                    setNumPages(numPages);
+                    setLoaded(true);
+                  }}
+                >
+                  <Page
+                    className={"content"}
+                    pageIndex={currPage}
+                    height={700}
+                  />
+                </Document>
+              )}
               {loaded ? (
                 <span className={"page-counter"}>
                   {currPage + 1}/{numPages}

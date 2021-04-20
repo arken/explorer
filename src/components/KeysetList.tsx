@@ -17,7 +17,7 @@ const KeysetList = ({ keyset, repoName }: KeysetListProps) => {
       {repoName} currently contains {keyset.length} Keyset file
       {keyset.length === 1 ? "" : "s"}. Click one to explore it!
       {keyset.map((key) => (
-        <div className={"keyset-list__tile"} key={key.sha}>
+        <div className={"keyset-list__tile"} key={key.sha + Math.random()}>
           <Link to={`/explorer/${key.path}?sha=${key.sha}`}>
             {getStyledPath(key.path)}
           </Link>
