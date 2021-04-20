@@ -17,6 +17,11 @@
     color: white;
     justify-content: space-between;
 
+    .pdf-loader-circles {
+      margin-top: 45vh;
+      text-align: center;
+    }
+
     svg {
       font-size: 4rem;
       transition: 100ms;
@@ -37,7 +42,7 @@
       align-items: center;
       justify-content: center;
 
-      span {
+      .page-counter {
         margin-top: 8px;
         font-size: 1.2rem;
       }

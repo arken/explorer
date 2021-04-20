@@ -24,9 +24,11 @@ const PDFTile = ({ ipfsHash, name }: FileTileProps) => {
       >
         <Document
           file={url}
+          externalLinkTarget={"_blank"}
           loading={""}
-          onLoadSuccess={() => {
+          onLoadSuccess={async ({ getData }) => {
             setLoaded(true);
+            // await getData();
           }}
         >
           <Page className={"content"} pageIndex={0} height={350} />
