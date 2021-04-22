@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { FileTileProps, getUrl } from "./file_util";
-import { pdfjs, Document, Page } from "react-pdf";
+import { fetchData, FileTileProps, getUrl } from "./file_util";
+import { Document, Page, pdfjs } from "react-pdf";
 import NewTabLink from "../NewTabLink";
 import PDFViewer from "../PDFViewer";
+
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
 
 const PDFTile = ({ ipfsHash, name }: FileTileProps) => {
@@ -11,15 +12,12 @@ const PDFTile = ({ ipfsHash, name }: FileTileProps) => {
   const [previewOpen, setPreviewOpen] = useState(false);
   const url = getUrl(ipfsHash);
   useEffect(() => {
-    fetch(url)
-      .then((res) =>
-        res.arrayBuffer().then((buf) => {
-          setData(new Uint8Array(buf));
-        })
-      )
-      .catch(() => {
-        //what to do here?
-      });
+    fetchData(url, "Uint8Array").then((data) => {
+      if (data instanceof Uint8Array) {
+        setData(data);
+        setLoaded(true);
+      }
+    });
   }, [setData, url]);
   return (
     <div className={"file-tile file-tile--pdf"}>
