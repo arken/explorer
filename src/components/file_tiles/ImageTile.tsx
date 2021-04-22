@@ -1,10 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  fetchData,
-  FileTileProps,
-  getFileExtension,
-  getUrl,
-} from "./file_util";
+import { fetchData, FileTileProps, getUrl } from "./file_util";
 import "../../styles/file_tiles.scss";
 import NewTabLink from "../NewTabLink";
 
@@ -31,7 +26,10 @@ const ImageTile = ({ ipfsHash, name }: FileTileProps) => {
           <img
             src={imgUrl!}
             alt={name}
-            onLoad={() => setLoaded(true)}
+            onLoad={() => {
+              setLoaded(true);
+              URL.revokeObjectURL(imgUrl);
+            }}
             className={"content"}
           />
         )}
