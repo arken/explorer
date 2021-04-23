@@ -11,7 +11,6 @@
   overflow-y: auto;
 
   .modal-body {
-    margin-top: 10px;
     color: white;
 
     .pdf-loader-circles {
@@ -64,25 +63,7 @@
           font-size: 30px;
         }
       }
-
-      .react-pdf__Page.content {
-        canvas {
-          max-height: 700px;
-        }
-      }
     }
-  }
-
-  $i: 300;
-  @while $i < 2000 {
-    @media screen and (min-height: #{$i}px) {
-      height: #{$i - 80}px;
-      $i: $i + 100;
-    }
-  }
-
-  @media screen and (max-width: 600px) {
-    padding: 10px;
   }
 }
 

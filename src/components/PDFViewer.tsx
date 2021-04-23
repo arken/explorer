@@ -69,7 +69,6 @@ const PDFViewer = ({ open, onClose, data }: PDFViewerProps) => {
                       pageIndex={currPage.index}
                       onLoadSuccess={({ width, height }) => {
                         if (!currPage.width && !currPage.height) {
-                          const { innerWidth: winWidth } = window;
                           if (width && height) {
                             setCurrPage({
                               index: currPage.index,
@@ -77,7 +76,7 @@ const PDFViewer = ({ open, onClose, data }: PDFViewerProps) => {
                             });
                           } else {
                             setCurrPage({
-                              width: winWidth * 0.75,
+                              width: window.innerWidth * 0.75,
                               height: undefined,
                               index: currPage.index,
                             });
@@ -133,22 +132,37 @@ const heightMod = 0.85;
 const widthMod = 0.95;
 
 const getDocDimensions = (
-  width: number,
-  height: number
+  docWidth: number,
+  docHeight: number
 ): { width?: number; height?: number } => {
   const { innerHeight: winHeight, innerWidth: winWidth } = window;
   if (winWidth > winHeight) {
     //widescreen
-    return {
-      height: heightMod * winHeight,
-      width: undefined,
-    };
+    const newDocWidth = ((heightMod * winHeight) / docHeight) * docWidth;
+    if (newDocWidth < winWidth) {
+      return {
+        height: heightMod * winHeight,
+      };
+    } else {
+      //scaling the pdf to be heightMod * winHeight pixels tall made it too wide
+      //to fit on screen, meaning the document is (potentially very) wide
+      return {
+        width: widthMod * winWidth,
+      };
+    }
   } else {
     //tall screen
-    return {
-      height: undefined,
-      width: widthMod * winWidth,
-    };
+    const newDocHeight = ((widthMod * winWidth) / docWidth) * docHeight;
+    if (newDocHeight < winHeight) {
+      return {
+        width: widthMod * winWidth,
+      };
+    } else {
+      //scaling th4e pdf made it too wide to display
+      return {
+        height: heightMod * winHeight,
+      };
+    }
   }
 };
 
