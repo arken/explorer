@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { FileTileProps, getUrl } from "./file_util";
+import { fetchData, FileTileProps, getUrl } from "./file_util";
 import NewTabLink from "../NewTabLink";
 
 const previewCharLimit = 512;
@@ -14,16 +14,11 @@ const TextTile = ({ name, ipfsHash }: FileTileProps) => {
   }
   const url = getUrl(ipfsHash);
   useEffect(() => {
-    fetch(`${url}`)
-      .then((res) =>
-        res
-          .text()
-          .then((content) => {
-            setContent(content);
-          })
-          .catch(() => setContent(null))
-      )
-      .catch(() => setContent(null));
+    fetchData(url, "Text").then((data) => {
+      if (!data || typeof data === "string") {
+        setContent(data);
+      }
+    });
   });
   return (
     <div className={"file-tile file-tile--txt"}>
@@ -38,7 +33,7 @@ const TextTile = ({ name, ipfsHash }: FileTileProps) => {
       {content === undefined && "Loading..."}
       {content === null && (
         <>
-          Error in fetching or decoding {name}. You can find it{" "}
+          Error while fetching or decoding {name}. You can find it{" "}
           <NewTabLink href={url}>here</NewTabLink>
         </>
       )}

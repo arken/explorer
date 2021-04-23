@@ -4,6 +4,8 @@ $row-width-med: 90%;
 $row-width-mob: 97%;
 $off-white: #f7f9fb;
 $main-font: "nitti light", "Helvetica", sans-serif;
+$blue-hl: #2d60f8;
+$red-hl: rgb(233, 4, 4);
 
 @function mobileNavHeight() {
   @return 75px;

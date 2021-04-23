@@ -8,6 +8,7 @@ export enum FileCategory {
 }
 
 const images = new Set<string>([
+  "apng",
   "jpg",
   "jpeg",
   "gif",
@@ -125,12 +126,16 @@ export type FileTileProps = {
   name: string;
 };
 
-export const getFileCategory = (name: string): FileCategory => {
-  const dot = name.lastIndexOf(".") + 1;
+export const getFileExtension = (fileName: string): string => {
+  const dot = fileName.lastIndexOf(".") + 1;
   if (dot === 0) {
-    return FileCategory.OTHER;
+    return "";
   }
-  const ext = name.substring(dot).toLowerCase();
+  return fileName.substring(dot);
+};
+
+export const getFileCategory = (name: string): FileCategory => {
+  const ext = getFileExtension(name);
   if (images.has(ext)) {
     return FileCategory.IMAGE;
   } else if (ext === "pdf") {
@@ -147,3 +152,26 @@ export const getFileCategory = (name: string): FileCategory => {
 };
 
 export const getUrl = (hash: string) => `https://link.arken.io/ipfs/${hash}`;
+
+export const fetchData = async (
+  url: string,
+  type: "Uint8Array" | "Blob" | "Text" //how the data will be extracted from the response
+): Promise<Uint8Array | string | Blob | null> => {
+  let result: Uint8Array | string | Blob | null = null;
+  let data: Response;
+  try {
+    data = await fetch(url);
+  } catch {
+    return null;
+  }
+  if (type === "Blob") {
+    result = await data.blob();
+  } else if (type === "Uint8Array") {
+    result = new Uint8Array(await data.arrayBuffer());
+  } else if (type === "Text") {
+    result = await data.text();
+  } else {
+    return null;
+  }
+  return result;
+};
