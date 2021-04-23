@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import ReactDom from "react-dom";
 import "../styles/pdf-viewer.scss";
-import { Document, Page } from "react-pdf";
+import { Document, Page, pdfjs } from "react-pdf";
 import { MdNavigateNext, MdNavigateBefore } from "react-icons/md";
 import { LoaderCircles } from "slate-react-system";
+pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
 
 type PDFViewerProps = {
   open: boolean;
@@ -14,18 +15,29 @@ type PDFViewerProps = {
 
 const modalRoot = document.getElementById("portal") as HTMLElement;
 
+type CurrPage = {
+  index: number;
+  width?: number;
+  height?: number;
+};
+
 const PDFViewer = ({ open, onClose, data }: PDFViewerProps) => {
-  const [currPage, setCurrPage] = useState(0);
+  const onMyClose = () => {
+    setLoaded(false);
+    setCurrPage({ index: currPage.index });
+    onClose();
+  };
+  const [currPage, setCurrPage] = useState<CurrPage>({ index: 0 });
   const [loaded, setLoaded] = useState(false);
   const [numPages, setNumPages] = useState<number>(0);
-  const validatedPageChange = (desired: number) => {
+  const validatedPageChange = (desired: number, currPage: CurrPage) => {
     if (loaded) {
       if (desired >= 0 && desired < numPages) {
-        setCurrPage(desired);
+        setCurrPage({ ...currPage, index: desired });
       } else if (desired === -1) {
-        setCurrPage(numPages - 1);
+        setCurrPage({ ...currPage, index: numPages - 1 });
       } else if (desired === numPages) {
-        setCurrPage(0);
+        setCurrPage({ ...currPage, index: 0 });
       }
     }
   };
@@ -34,43 +46,68 @@ const PDFViewer = ({ open, onClose, data }: PDFViewerProps) => {
     document.body.style.top = `-${window.scrollY}px`;
     return ReactDom.createPortal(
       <>
-        <div
-          className={"modal-overlay"}
-          onClick={() => {
-            setLoaded(false);
-            onClose();
-          }}
-        />
+        <div className={"modal-overlay"} onClick={onMyClose} />
         <div className={"modal-dialog"}>
           <div className={"modal-body"}>
-            {loaded && (
-              <MdNavigateBefore
-                className={"page-changer"}
-                onClick={() => validatedPageChange(currPage - 1)}
-              />
-            )}
             <div className={"doc-column"}>
               {data && (
-                <Document
-                  file={{ data: data }}
-                  externalLinkTarget={"_blank"}
-                  loading={""}
-                  onLoadSuccess={({ numPages }) => {
-                    setNumPages(numPages);
-                    setLoaded(true);
-                  }}
-                >
-                  <Page
-                    className={"content"}
-                    pageIndex={currPage}
-                    height={700}
-                  />
-                </Document>
+                <>
+                  <span className={"close-preview"} onClick={onMyClose}>
+                    Close
+                  </span>
+                  <Document
+                    file={{ data: data }}
+                    externalLinkTarget={"_blank"}
+                    loading={""}
+                    onLoadSuccess={({ numPages }) => {
+                      setNumPages(numPages);
+                      setLoaded(true);
+                    }}
+                  >
+                    <Page
+                      className={"content"}
+                      pageIndex={currPage.index}
+                      onLoadSuccess={({ width, height }) => {
+                        if (!currPage.width && !currPage.height) {
+                          const { innerWidth: winWidth } = window;
+                          if (width && height) {
+                            setCurrPage({
+                              index: currPage.index,
+                              ...getDocDimensions(width, height),
+                            });
+                          } else {
+                            setCurrPage({
+                              width: winWidth * 0.75,
+                              height: undefined,
+                              index: currPage.index,
+                            });
+                          }
+                        }
+                      }}
+                      width={currPage.width}
+                      height={currPage.height}
+                    />
+                  </Document>
+                </>
               )}
               {loaded ? (
-                <span className={"page-counter"}>
-                  {currPage + 1}/{numPages}
-                </span>
+                <div className={"controls-row"}>
+                  <MdNavigateBefore
+                    className={"page-changer"}
+                    onClick={() =>
+                      validatedPageChange(currPage.index - 1, currPage)
+                    }
+                  />
+                  <span className={"page-counter"}>
+                    {currPage.index + 1}/{numPages}
+                  </span>
+                  <MdNavigateNext
+                    className={"page-changer"}
+                    onClick={() =>
+                      validatedPageChange(currPage.index + 1, currPage)
+                    }
+                  />
+                </div>
               ) : (
                 <div className={"pdf-loader-circles"}>
                   Loading PDF...
@@ -78,12 +115,6 @@ const PDFViewer = ({ open, onClose, data }: PDFViewerProps) => {
                 </div>
               )}
             </div>
-            {loaded && (
-              <MdNavigateNext
-                className={"page-changer"}
-                onClick={() => validatedPageChange(currPage + 1)}
-              />
-            )}
           </div>
         </div>
       </>,
@@ -95,6 +126,29 @@ const PDFViewer = ({ open, onClose, data }: PDFViewerProps) => {
     document.body.style.top = "";
     window.scrollTo(0, parseInt(scrollY || "0") * -1);
     return null;
+  }
+};
+
+const heightMod = 0.85;
+const widthMod = 0.95;
+
+const getDocDimensions = (
+  width: number,
+  height: number
+): { width?: number; height?: number } => {
+  const { innerHeight: winHeight, innerWidth: winWidth } = window;
+  if (winWidth > winHeight) {
+    //widescreen
+    return {
+      height: heightMod * winHeight,
+      width: undefined,
+    };
+  } else {
+    //tall screen
+    return {
+      height: undefined,
+      width: widthMod * winWidth,
+    };
   }
 };
 

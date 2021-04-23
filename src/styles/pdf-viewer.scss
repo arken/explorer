@@ -11,11 +11,8 @@
   overflow-y: auto;
 
   .modal-body {
-    display: flex;
-    align-items: center;
     margin-top: 10px;
     color: white;
-    justify-content: space-between;
 
     .pdf-loader-circles {
       margin-top: 45vh;
@@ -42,9 +39,36 @@
       align-items: center;
       justify-content: center;
 
-      .page-counter {
+      .close-preview {
+        user-select: none;
+        margin-bottom: 3px;
+        cursor: pointer;
+        color: #ff2323;
+        align-self: end;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+
+      .controls-row {
+        user-select: none;
         margin-top: 8px;
         font-size: 1.2rem;
+        display: flex;
+        align-items: center;
+
+        svg {
+          margin: 0;
+          padding: 0;
+          font-size: 30px;
+        }
+      }
+
+      .react-pdf__Page.content {
+        canvas {
+          max-height: 700px;
+        }
       }
     }
   }
